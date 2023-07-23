@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node dist/index.js",
-    "build": "yarn install && yarn run build:tsc && cross-env NODE_ENV=production node dist/index.js",
+    "build": "yarn install && yarn run build:tsc",
     "dev": "cross-env NODE_ENV=development nodemon",
     "build:tsc": "tsc && tsc-alias",
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
