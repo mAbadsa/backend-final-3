@@ -63,7 +63,4 @@ export class Address extends Model {
     defaultValue: false,
   })
   is_default!: boolean;
-
-  @BelongsTo(() => User, 'user_id')
-  user!: User;
 }
