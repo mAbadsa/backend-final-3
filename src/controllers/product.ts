@@ -1,12 +1,18 @@
-import { Product } from '@/models/Product';
-import { Brand } from '@/models/Brand';
-import { createProductFilter, getProductsByFilter } from '@/services/product';
 import { RequestHandler, Request, Response } from 'express';
-const { Op } = require('sequelize');
+import { Op } from 'sequelize';
 
-export const getLimitedEdition: RequestHandler = async (req, res) => {
-  req.query.quantity = '20';
-  const filter = createProductFilter(req.query);
+import { Product } from '@models/Product';
+import { Brand } from '@models/Brand';
+import { createProductFilter, getProductsByFilter } from '@services/product';
+
+export const getLimitedEdition: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const FilterData = req.query;
+  FilterData.quantity = '20';
+  const filter = createProductFilter(FilterData);
+
   try {
     const result = await getProductsByFilter(filter);
     return res.status(200).json(result);
@@ -15,9 +21,14 @@ export const getLimitedEdition: RequestHandler = async (req, res) => {
   }
 };
 
-export const getPopular: RequestHandler = async (req, res) => {
-  req.query.rating = '4.5';
-  const filter = createProductFilter(req.query);
+export const getPopular: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const FilterData = req.query;
+  FilterData.rating = '4.5';
+  const filter = createProductFilter(FilterData);
+
   try {
     const result = await getProductsByFilter(filter);
     return res.status(200).json(result);
@@ -26,9 +37,14 @@ export const getPopular: RequestHandler = async (req, res) => {
   }
 };
 
-export const getNewArrivals: RequestHandler = async (req, res) => {
-  req.query.isNew = '1';
-  const filter = createProductFilter(req.query);
+export const getNewArrivals: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const FilterData = req.query;
+  FilterData.isNew = '1';
+  const filter = createProductFilter(FilterData);
+
   try {
     const result = await getProductsByFilter(filter);
     return res.status(200).json(result);
@@ -37,7 +53,10 @@ export const getNewArrivals: RequestHandler = async (req, res) => {
   }
 };
 
-export const getHandpicked: RequestHandler = async (req, res) => {
+export const getHandpicked: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
   const filter = createProductFilter({ handpicked: '1' });
   try {
     const result = await getProductsByFilter(filter);
@@ -46,7 +65,10 @@ export const getHandpicked: RequestHandler = async (req, res) => {
     return res.status(500).json(error);
   }
 };
-export const getProducts: RequestHandler = async (req, res) => {
+export const getProducts: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
   const filter = createProductFilter(req.query);
 
   try {
@@ -57,7 +79,7 @@ export const getProducts: RequestHandler = async (req, res) => {
   }
 };
 
-export const search: RequestHandler = async (req, res) => {
+export const search: RequestHandler = async (req: Request, res: Response) => {
   const { keyword } = req.query;
   try {
     const products = await Product.findAll({
@@ -75,6 +97,17 @@ export const search: RequestHandler = async (req, res) => {
     });
 
     return res.status(200).json(products);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+export const createProducts: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const newProduct = await Product.create({ ...req.body });
+    return res.status(200).json(newProduct);
   } catch (error) {
     return res.status(500).json(error);
   }

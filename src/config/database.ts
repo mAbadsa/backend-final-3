@@ -6,8 +6,17 @@ dotenv.config();
 const { DB_DAILECT, DB_HOST, DB_USERNAME, DB_PASS, DB_NAME, DB_LOGGING } =
   process.env;
 
-const development = {
-  dialect: DB_DAILECT || 'mysql',
+export interface IDatabaseEnvVar {
+  dialect: Partial<Dialect>;
+  host: string;
+  username: string;
+  password: string;
+  database: string;
+  logging: boolean;
+}
+
+const development: IDatabaseEnvVar = {
+  dialect: (DB_DAILECT as Partial<Dialect>) || 'mysql',
   host: DB_HOST || '',
   username: DB_USERNAME || '',
   password: DB_PASS || '',
@@ -15,8 +24,6 @@ const development = {
   logging: DB_LOGGING === 'true',
 };
 
-const config = () => {
-  return development;
-};
+const config = (): IDatabaseEnvVar => development;
 
 export default config;

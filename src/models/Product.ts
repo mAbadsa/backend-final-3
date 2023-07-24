@@ -1,13 +1,13 @@
-import { HasOne } from 'sequelize';
 import {
   Table,
   Model,
   Column,
   DataType,
-  ForeignKey,
   BelongsTo,
   HasMany,
-  BelongsToMany,
+  CreatedAt,
+  UpdatedAt,
+  Sequelize,
 } from 'sequelize-typescript';
 import { Brand } from './Brand';
 import { CartItem } from './CartItem';
@@ -24,42 +24,77 @@ export class Product extends Model {
   @Column({
     type: DataType.STRING,
     allowNull: false,
+    validate: {
+      len: [3, 150],
+    },
   })
-  name!: string;
+  title!: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
+    validate: {
+      len: [3, 250],
+    },
   })
-  tittle!: string;
+  sub_title!: string;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.TEXT,
     allowNull: false,
+    validate: {
+      len: [20, 500],
+    },
   })
   description!: string;
 
   @Column({
     type: DataType.DOUBLE,
     allowNull: false,
+    validate: {
+      min: 0,
+    },
   })
   price!: number;
 
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
+    validate: {
+      min: 0,
+    },
   })
   quantity!: number;
 
   @Column({
     type: DataType.DOUBLE,
     allowNull: true,
+    validate: {
+      min: 0,
+      max: 5,
+    },
   })
   rating!: number;
+
+  @CreatedAt
+  @Column({
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+  })
+  createdAt!: Date;
+
+  @UpdatedAt
+  @Column({
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+  })
+  updatedAt?: Date;
 
   @Column({
     type: DataType.DOUBLE,
     allowNull: false,
+    validate: {
+      max: 100,
+      min: 0,
+    },
   })
   discount!: number;
 

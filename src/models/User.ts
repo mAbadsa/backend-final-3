@@ -3,14 +3,16 @@ import {
   Model,
   Column,
   DataType,
-  BelongsTo,
-  HasOne,
   HasMany,
-  ForeignKey,
+  BeforeCreate,
+  BeforeUpdate,
+  CreatedAt,
+  Sequelize,
+  UpdatedAt,
 } from 'sequelize-typescript';
+import { hashPassword } from '@utils/hashPassword';
 import { Address } from './Address';
 import { Cart } from './Cart';
-import { Favorite } from './Favorite';
 import { UserOrder } from './UserOrder';
 
 @Table({
@@ -19,14 +21,32 @@ import { UserOrder } from './UserOrder';
 })
 export class User extends Model {
   @Column({
+    field: 'first_name',
     type: DataType.STRING,
     allowNull: false,
+    validate: {
+      len: [2, 50],
+    },
   })
-  full_name!: string;
+  firstName!: string;
+
+  @Column({
+    field: 'last_name',
+    type: DataType.STRING,
+    allowNull: false,
+    validate: {
+      len: [2, 50],
+    },
+  })
+  lastName!: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
+    validate: {
+      min: 8,
+      isAlphanumeric: true,
+    },
   })
   password!: string;
 
@@ -43,10 +63,23 @@ export class User extends Model {
   email!: string;
 
   @Column({
+    field: 'current_cart_id',
     type: DataType.INTEGER,
-    allowNull: false,
+    allowNull: true,
   })
-  current_cart_id!: number;
+  currentCartId!: number;
+
+  @CreatedAt
+  @Column({
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+  })
+  createdAt!: Date;
+
+  @UpdatedAt
+  @Column({
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+  })
+  updatedAt?: Date;
 
   @HasMany(() => Cart, 'user_id')
   cart!: Cart[];
@@ -56,4 +89,13 @@ export class User extends Model {
 
   @HasMany(() => Address, 'user_id')
   addresses!: Address[];
+
+  @BeforeCreate
+  @BeforeUpdate
+  static async hashPassword(user: User): Promise<void> {
+    if (user.changed('password')) {
+      const hashedPassword = await hashPassword(user.password);
+      user.password = hashedPassword;
+    }
+  }
 }

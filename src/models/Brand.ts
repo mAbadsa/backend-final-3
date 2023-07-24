@@ -1,11 +1,4 @@
-import {
-  Table,
-  Model,
-  Column,
-  DataType,
-  ForeignKey,
-  HasMany,
-} from 'sequelize-typescript';
+import { Table, Model, Column, DataType, HasMany } from 'sequelize-typescript';
 import { Product } from './Product';
 
 @Table({
@@ -28,6 +21,9 @@ export class Brand extends Model {
   @Column({
     type: DataType.STRING,
     allowNull: true,
+    validate: {
+      isUrl: true,
+    },
   })
   img!: string;
 
