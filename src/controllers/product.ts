@@ -1,17 +1,14 @@
 import { RequestHandler, Request, Response } from 'express';
 import { Op } from 'sequelize';
 
-
 import { Product } from '@models/Product';
 import { Brand } from '@models/Brand';
 import { createProductFilter, getProductsByFilter } from '@services/product';
-
 
 export const getLimitedEdition: RequestHandler = async (
   req: Request,
   res: Response
 ) => {
-
   const FilterData = req.query;
   FilterData.quantity = '20';
   const filter = createProductFilter(FilterData);
@@ -28,7 +25,6 @@ export const getPopular: RequestHandler = async (
   req: Request,
   res: Response
 ) => {
-
   const FilterData = req.query;
   FilterData.rating = '4.5';
   const filter = createProductFilter(FilterData);
@@ -45,7 +41,6 @@ export const getNewArrivals: RequestHandler = async (
   req: Request,
   res: Response
 ) => {
-
   const FilterData = req.query;
   FilterData.isNew = '1';
   const filter = createProductFilter(FilterData);
@@ -102,6 +97,17 @@ export const search: RequestHandler = async (req: Request, res: Response) => {
     });
 
     return res.status(200).json(products);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+export const createProducts: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const newProduct = await Product.create({ ...req.body });
+    return res.status(200).json(newProduct);
   } catch (error) {
     return res.status(500).json(error);
   }

@@ -7,27 +7,36 @@ import { ProductImage } from '@/models/ProductsImage';
 export async function getProductsByFilter(filter): Promise<Product[]> {
   try {
     return await Product.findAll(filter);
-
   } catch (e) {
     return e;
   }
 }
 
-
-
-export function createProductFilter(query: ParsedQs): Record<string, object> {
-  const { quantity, discount, rating, isNew, handpicked, minPrice, maxPrice, pageLimit, pageNumber, brand_id, category_id } =
-    query;
-
+export function createProductFilter(
+  query: ParsedQs
+) /*: [Object, number, number]*/ {
+  const {
+    quantity,
+    discount,
+    rating,
+    isNew,
+    handpicked,
+    minPrice,
+    maxPrice,
+    pageLimit,
+    pageNumber,
+    brand_id,
+    category_id,
+  } = query;
 
   const limit: number = pageLimit ? Number(pageLimit) : 9; // default is 9
-  const offset: number = pageNumber ? (Number(pageNumber) - 1) * limit : 0;
+  const offset: number = pageNumber ? (Number(pageNumber) - 1) * limit : 0; // offset default is 0
 
   const where = {};
 
   if (quantity) {
     where['quantity'] = {
-      [Op.lt]: quantity,
+      [Op.lte]: quantity,
     };
   }
   if (category_id) {
@@ -75,7 +84,7 @@ export function createProductFilter(query: ParsedQs): Record<string, object> {
     };
   }
 
-  return { where, limit, offset };
+  return { where, limit, offset, include: ProductImage };
 }
 
 export function getNewArrivalsEarliestDate(): Date {
