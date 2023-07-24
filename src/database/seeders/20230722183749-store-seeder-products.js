@@ -287,6 +287,18 @@ module.exports = {
           brand_id: samsungBrandId,
           category_id: mobileAccessoriesCategoryId,
         },
+        {
+          title: 'Zara T-Shirt',
+          sub_title: 'Brah mens T-Shirt, Black',
+          description:
+            'Solid colors: 100% Cotton; Heather Grey: 90% Cotton, 10% Polyester; All Other Heathers: 50% Cotton, 50% Polyester',
+          price: 19.9,
+          quantity: 12,
+          rating: 4.8,
+          discount: 25,
+          brand_id: zaraBrandId,
+          category_id: shirtCategoryId,
+        },
       ],
       {}
     );

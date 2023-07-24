@@ -24,7 +24,7 @@ module.exports = {
         },
         {
           name: 'Laptops',
-          description: 'Notebook computers and ultrabooks.',
+          description: 'Notebook computers and ultra books.',
           img: 'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MJQK3?wid=532&hei=582&fmt=png-alpha&.v=1665496505001',
         },
         {
