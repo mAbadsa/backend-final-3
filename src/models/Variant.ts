@@ -5,7 +5,6 @@ import {
   DataType,
   BelongsTo,
 } from 'sequelize-typescript';
-import { ProductVariant } from './ProductVariant';
 
 @Table({
   timestamps: false,

@@ -21,6 +21,9 @@ export class Address extends Model {
   @Column({
     type: DataType.STRING,
     allowNull: false,
+    validate: {
+      len: [9, 12],
+    },
   })
   mobile_number!: string;
 
@@ -33,12 +36,18 @@ export class Address extends Model {
   @Column({
     type: DataType.STRING,
     allowNull: false,
+    validate: {
+      len: [2, 100],
+    },
   })
   state!: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
+    validate: {
+      len: [2, 100],
+    },
   })
   city!: string;
 
@@ -54,7 +63,4 @@ export class Address extends Model {
     defaultValue: false,
   })
   is_default!: boolean;
-
-  @BelongsTo(() => User, 'user_id')
-  user!: User;
 }

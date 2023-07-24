@@ -4,9 +4,7 @@ import {
   Column,
   DataType,
   BelongsTo,
-  HasOne,
   ForeignKey,
-  HasMany,
 } from 'sequelize-typescript';
 import { Cart } from './Cart';
 import { Product } from './Product';
@@ -16,15 +14,36 @@ import { Product } from './Product';
   tableName: 'cart_items',
 })
 export class CartItem extends Model {
-  @BelongsTo(() => Cart, 'cart_id')
-  cart!: Cart;
+  @ForeignKey(() => Cart)
+  @Column({
+    field: 'cart_id',
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  cartId!: number;
 
-  @BelongsTo(() => Product, 'product_id')
-  product!: Product;
+  @ForeignKey(() => Product)
+  @Column({
+    field: 'product_id',
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  productId!: number;
 
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
+    defaultValue: 0,
+    validate: {
+      max: 100,
+      min: 1,
+    },
   })
   quantity!: number;
+
+  @BelongsTo(() => Cart, 'cart_id')
+  cart!: Cart;
+
+  @BelongsTo(() => Product, { onDelete: 'CASCADE', foreignKey: 'product_id' })
+  product!: Product;
 }

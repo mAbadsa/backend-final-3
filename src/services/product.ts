@@ -1,31 +1,24 @@
-const { Op } = require('sequelize');
-import { Product } from '@/models/Product';
+import { Op } from 'sequelize';
 import { ParsedQs } from 'qs';
 import { FindOptions, WhereOptions } from 'sequelize';
+import { Product } from '@models/Product';
+import { ProductImage } from '@/models/ProductsImage';
 
-export async function getProductsByFilter(filter: FindOptions) {
-  console.log(filter);
+export async function getProductsByFilter(filter): Promise<Product[]> {
   try {
     return await Product.findAll(filter);
+
   } catch (e) {
     return e;
   }
 }
 
-export function createProductFilter(query: ParsedQs) {
-  const {
-    quantity,
-    discount,
-    rating,
-    isNew,
-    handpicked,
-    minPrice,
-    maxPrice,
-    pageLimit,
-    pageNumber,
-    brand_id,
-    category_id,
-  } = query;
+
+
+export function createProductFilter(query: ParsedQs): Record<string, object> {
+  const { quantity, discount, rating, isNew, handpicked, minPrice, maxPrice, pageLimit, pageNumber, brand_id, category_id } =
+    query;
+
 
   const limit: number = pageLimit ? Number(pageLimit) : 9; // default is 9
   const offset: number = pageNumber ? (Number(pageNumber) - 1) * limit : 0;
@@ -85,7 +78,7 @@ export function createProductFilter(query: ParsedQs) {
   return { where, limit, offset };
 }
 
-export function getNewArrivalsEarliestDate() {
+export function getNewArrivalsEarliestDate(): Date {
   const date = new Date();
   date.setMonth(date.getMonth() - 3);
   return date;

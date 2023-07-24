@@ -1,15 +1,21 @@
-import { Product } from '@/models/Product';
-import { Brand } from '@/models/Brand';
-import { createProductFilter, getProductsByFilter } from '@/services/product';
 import { RequestHandler, Request, Response } from 'express';
-const { Op } = require('sequelize');
+import { Op } from 'sequelize';
+
+
+import { Product } from '@models/Product';
+import { Brand } from '@models/Brand';
+import { createProductFilter, getProductsByFilter } from '@services/product';
+
 
 export const getLimitedEdition: RequestHandler = async (
   req: Request,
   res: Response
 ) => {
-  req.query.quantity = '20';
-  const filter = createProductFilter(req.query);
+
+  const FilterData = req.query;
+  FilterData.quantity = '20';
+  const filter = createProductFilter(FilterData);
+
   try {
     const result = await getProductsByFilter(filter);
     return res.status(200).json(result);
@@ -22,8 +28,11 @@ export const getPopular: RequestHandler = async (
   req: Request,
   res: Response
 ) => {
-  req.query.rating = '4.5';
-  const filter = createProductFilter(req.query);
+
+  const FilterData = req.query;
+  FilterData.rating = '4.5';
+  const filter = createProductFilter(FilterData);
+
   try {
     const result = await getProductsByFilter(filter);
     return res.status(200).json(result);
@@ -36,8 +45,11 @@ export const getNewArrivals: RequestHandler = async (
   req: Request,
   res: Response
 ) => {
-  req.query.isNew = '1';
-  const filter = createProductFilter(req.query);
+
+  const FilterData = req.query;
+  FilterData.isNew = '1';
+  const filter = createProductFilter(FilterData);
+
   try {
     const result = await getProductsByFilter(filter);
     return res.status(200).json(result);

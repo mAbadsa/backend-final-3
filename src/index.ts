@@ -1,8 +1,6 @@
-import app from './app';
-import config from './config';
+import App from '@app';
+import { dbConnection } from '@database/index';
 
-const { port } = config.server;
+const app = new App(dbConnection);
 
-app.listen(port, () => {
-  console.log('Server is running on port:', port);
-});
+app.listen();

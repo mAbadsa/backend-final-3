@@ -1,4 +1,3 @@
-import { Dialect } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
 import config from '@config';
 import { Address } from '@models/Address';
@@ -17,7 +16,7 @@ import { Variant } from '@models/Variant';
 const { database } = config;
 
 const connection = new Sequelize({
-  dialect: database.dialect as Dialect,
+  dialect: database.dialect,
   host: database.host,
   username: database.username,
   password: database.password,

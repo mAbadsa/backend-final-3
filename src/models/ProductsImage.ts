@@ -3,7 +3,6 @@ import {
   Model,
   Column,
   DataType,
-  ForeignKey,
   BelongsTo,
 } from 'sequelize-typescript';
 import { Product } from './Product';
@@ -16,6 +15,9 @@ export class ProductImage extends Model {
   @Column({
     type: DataType.STRING,
     allowNull: false,
+    validate: {
+      isUrl: true,
+    },
   })
   src!: string;
 
@@ -25,6 +27,10 @@ export class ProductImage extends Model {
   })
   alt!: string;
 
-  @BelongsTo(() => Product, 'product_id')
+  @BelongsTo(() => Product, {
+    onDelete: 'NULL',
+    onUpdate: 'CASCADE',
+    foreignKey: 'product_id',
+  })
   product!: Product[];
 }

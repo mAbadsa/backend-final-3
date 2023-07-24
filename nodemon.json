@@ -4,6 +4,7 @@
       ".env"
   ],
   "ext": "js,ts,json",
+  "delay": "500ms",
   "ignore": [
       "src/logs/*",
       "src/**/*.{spec,test}.ts"
