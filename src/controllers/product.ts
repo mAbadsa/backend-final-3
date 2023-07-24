@@ -12,6 +12,7 @@ export const getLimitedEdition: RequestHandler = async (
   const FilterData = req.query;
   FilterData.quantity = '20';
   const filter = createProductFilter(FilterData);
+
   try {
     const result = await getProductsByFilter(filter);
     return res.status(200).json(result);
@@ -27,6 +28,7 @@ export const getPopular: RequestHandler = async (
   const FilterData = req.query;
   FilterData.rating = '4.5';
   const filter = createProductFilter(FilterData);
+
   try {
     const result = await getProductsByFilter(filter);
     return res.status(200).json(result);
@@ -42,6 +44,7 @@ export const getNewArrivals: RequestHandler = async (
   const FilterData = req.query;
   FilterData.isNew = '1';
   const filter = createProductFilter(FilterData);
+
   try {
     const result = await getProductsByFilter(filter);
     return res.status(200).json(result);
@@ -94,6 +97,17 @@ export const search: RequestHandler = async (req: Request, res: Response) => {
     });
 
     return res.status(200).json(products);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+export const createProducts: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const newProduct = await Product.create({ ...req.body });
+    return res.status(200).json(newProduct);
   } catch (error) {
     return res.status(500).json(error);
   }

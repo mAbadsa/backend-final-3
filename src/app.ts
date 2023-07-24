@@ -1,8 +1,10 @@
 import express from 'express';
+
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { Sequelize } from 'sequelize-typescript';
+
 
 import config from '@config';
 import envVar from '@validations/envVar';
