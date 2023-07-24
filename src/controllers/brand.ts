@@ -1,6 +1,7 @@
 import { createProductFilter, getProductsByFilter } from '@/services/product';
 import { getAllBrands } from '@/services/brand';
 import { RequestHandler, Request, Response } from 'express';
+import { Query } from 'mysql2';
 
 export const getBrands: RequestHandler = async (
   req: Request,
@@ -19,8 +20,9 @@ export const getBrandProducts: RequestHandler = async (
   res: Response
 ) => {
   const { id } = req.params;
-  req.query.brand_id = id;
-  const filter = createProductFilter(req.query);
+  const myQuery = req.query;
+  myQuery.brand_id = id;
+  const filter = createProductFilter(myQuery);
 
   try {
     const result = await getProductsByFilter(filter);

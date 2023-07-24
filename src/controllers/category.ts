@@ -20,8 +20,9 @@ export const getCategoryProducts: RequestHandler = async (
   res: Response
 ) => {
   const { id } = req.params;
-  req.query.category_id = id;
-  const filter = createProductFilter(req.query);
+  const myQuery = req.query;
+  myQuery.category_id = id;
+  const filter = createProductFilter(myQuery);
 
   try {
     const result = await getProductsByFilter(filter);
