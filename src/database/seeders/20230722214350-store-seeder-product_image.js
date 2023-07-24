@@ -22,6 +22,31 @@ module.exports = {
           alt: 'MacBook Pro 16-inch',
           product_id: 3,
         },
+        {
+          src: 'https://m.media-amazon.com/images/I/51n1wPtHEAL._AC_UY695_.jpg',
+          alt: 'Nike shoes',
+          product_id: 12,
+        },
+        {
+          src: 'https://m.media-amazon.com/images/I/51VFudBz0oL._AC_UY535_.jpg',
+          alt: 'Nike shoes',
+          product_id: 12,
+        },
+        {
+          src: 'https://m.media-amazon.com/images/I/61c0zuVp+DL._AC_UY625_.jpg',
+          alt: 'Nike shoes',
+          product_id: 13,
+        },
+        {
+          src: 'https://m.media-amazon.com/images/I/61wSNmBoxDL._AC_UY625_.jpg',
+          alt: 'Nike shoes',
+          product_id: 13,
+        },
+        {
+          src: 'https://m.media-amazon.com/images/I/41-VIUhscIL._AC_SX679_.jpg',
+          alt: 'Samsung Type-C cable',
+          product_id: 14,
+        },
       ],
       {}
     );
