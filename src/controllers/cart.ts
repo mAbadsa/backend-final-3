@@ -10,6 +10,12 @@ export const getCart = async (
   try {
     const user = req.user;
     const userCartId = user.currentCartId;
+    //todo:
+    /*
+    if (userCartId ==null){
+      addCart
+    }
+    */
 
     const cart = await getCardById(userCartId);
 

@@ -16,7 +16,13 @@ export class Address extends Model {
     type: DataType.STRING,
     allowNull: false,
   })
-  full_name!: string;
+  first_name!: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  last_name!: string;
 
   @Column({
     type: DataType.STRING,

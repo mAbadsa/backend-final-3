@@ -90,7 +90,7 @@ export const search: RequestHandler = async (req: Request, res: Response) => {
       ],
       where: {
         [Op.or]: [
-          { name: { [Op.like]: `%${keyword}%` } },
+          { title: { [Op.like]: `%${keyword}%` } },
           { '$brand.name$': { [Op.like]: `%${keyword}%` } },
         ],
       },
@@ -108,6 +108,40 @@ export const createProducts: RequestHandler = async (
   try {
     const newProduct = await Product.create({ ...req.body });
     return res.status(200).json(newProduct);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
+export const getBrandProducts: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const { id } = req.params;
+  const myQuery = req.query;
+  myQuery.brand_id = id;
+  const filter = createProductFilter(myQuery);
+
+  try {
+    const products: Product[] = await getProductsByFilter(filter);
+    return res.status(200).json(products);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
+export const getCategoryProducts: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const { id } = req.params;
+  const myQuery = req.query;
+  myQuery.category_id = id;
+  const filter = createProductFilter(myQuery);
+
+  try {
+    const products: Product[] = await getProductsByFilter(filter);
+    return res.status(200).json(products);
   } catch (error) {
     return res.status(500).json(error);
   }
