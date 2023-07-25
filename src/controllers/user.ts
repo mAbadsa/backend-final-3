@@ -65,7 +65,6 @@ export const signup = async (
   const { authResponse } = messages;
   try {
     const existedUser = await getUserByEmail(email);
-    console.log({ existedUser });
     if (existedUser) {
       throw new HttpException(httpStatus.CONFLICT, authResponse.ALREADY_EXIST);
     }
@@ -149,14 +148,13 @@ export const login = async (
 
     res
       .status(httpStatus.OK)
-      .cookie(token.ACCESS_TOKEN, genToken, {
+      .cookie(token.ACCESS_TOKEN || 'accessToken', genToken, {
         httpOnly: true,
-        sameSite: 'none',
-        secure: true,
       })
       .json({
         success: true,
         message: authResponse.SUCCESS_LOGIN,
+        accessToken: genToken,
         user: {
           firstName,
           lastName,
