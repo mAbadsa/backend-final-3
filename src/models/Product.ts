@@ -76,6 +76,16 @@ export class Product extends Model {
   })
   rating!: number;
 
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+    validate: {
+      min: 0,
+    },
+  })
+  rating_count!: number;
+
   @CreatedAt
   @Column({
     defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
