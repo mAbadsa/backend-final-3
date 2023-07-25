@@ -90,7 +90,7 @@ export const search: RequestHandler = async (req: Request, res: Response) => {
       ],
       where: {
         [Op.or]: [
-          { name: { [Op.like]: `%${keyword}%` } },
+          { title: { [Op.like]: `%${keyword}%` } },
           { '$brand.name$': { [Op.like]: `%${keyword}%` } },
         ],
       },
