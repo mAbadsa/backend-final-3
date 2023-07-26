@@ -128,6 +128,7 @@ module.exports = {
           description: 'The latest flagship iPhone with advanced features.',
           quantity: 10,
           rating: 4.7,
+          rating_count: 4,
           discount: 2,
           brand_id: appleBrandId,
           category_id: phoneCategoryId,
@@ -139,6 +140,8 @@ module.exports = {
           description: 'A compact iPhone with a powerful processor.',
           quantity: 10,
           rating: 4.7,
+          rating_count: 14,
+
           discount: 2,
           brand_id: appleBrandId,
           category_id: phoneCategoryId,
@@ -150,6 +153,8 @@ module.exports = {
           price: 1999.99,
           quantity: 12,
           rating: 4.5,
+          rating_count: 69,
+
           discount: 7,
           brand_id: appleBrandId,
           category_id: laptopCategoryId,
@@ -162,6 +167,8 @@ module.exports = {
           price: 599.99,
           quantity: 10,
           rating: 4.5,
+          rating_count: 57,
+
           discount: 3,
           brand_id: appleBrandId,
           category_id: phoneCategoryId,
@@ -175,6 +182,8 @@ module.exports = {
           price: 799,
           quantity: 5,
           rating: 4.7,
+          rating_count: 85,
+
           discount: 0,
           brand_id: appleBrandId,
           category_id: phoneCategoryId,
@@ -187,6 +196,8 @@ module.exports = {
           price: 599,
           quantity: 12,
           rating: 4.1,
+          rating_count: 155,
+
           discount: 0,
           brand_id: appleBrandId,
           category_id: phoneCategoryId,
@@ -199,6 +210,8 @@ module.exports = {
           price: 150,
           quantity: 50,
           rating: 3.5,
+          rating_count: 12,
+
           discount: 0,
           brand_id: appleBrandId,
           category_id: mobileAccessoriesCategoryId,
@@ -211,6 +224,8 @@ module.exports = {
           price: 250,
           quantity: 50,
           rating: 4.5,
+          rating_count: 13,
+
           discount: 3,
           brand_id: appleBrandId,
           category_id: mobileAccessoriesCategoryId,
@@ -222,6 +237,8 @@ module.exports = {
           price: 700,
           quantity: 12,
           rating: 4.2,
+          rating_count: 16,
+
           discount: 0,
           brand_id: appleBrandId,
           category_id: tabletsCategoryId,
@@ -235,6 +252,8 @@ module.exports = {
           price: 1200,
           quantity: 12,
           rating: 4.9,
+          rating_count: 17,
+
           discount: 0,
           brand_id: samsungBrandId,
           category_id: phoneCategoryId,
@@ -247,6 +266,8 @@ module.exports = {
           price: 40,
           quantity: 12,
           rating: 4.5,
+          rating_count: 45,
+
           discount: 30,
           brand_id: appleBrandId,
           category_id: mobileAccessoriesCategoryId,
@@ -259,6 +280,8 @@ module.exports = {
           price: 59,
           quantity: 20,
           rating: 4.3,
+          rating_count: 18,
+
           discount: 0,
           brand_id: nikeBrandId,
           category_id: shoesCategoryId,
@@ -271,6 +294,8 @@ module.exports = {
           price: 44.5,
           quantity: 9,
           rating: 4.6,
+          rating_count: 18,
+
           discount: 0,
           brand_id: nikeBrandId,
           category_id: shoesCategoryId,
@@ -283,6 +308,7 @@ module.exports = {
           price: 19.9,
           quantity: 12,
           rating: 4.8,
+          rating_count: 35,
           discount: 50,
           brand_id: samsungBrandId,
           category_id: mobileAccessoriesCategoryId,
@@ -295,6 +321,8 @@ module.exports = {
           price: 19.9,
           quantity: 12,
           rating: 4.8,
+          rating_count: 15,
+
           discount: 25,
           brand_id: zaraBrandId,
           category_id: shirtCategoryId,
