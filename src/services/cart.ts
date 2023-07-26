@@ -16,7 +16,7 @@ export const getCardById = async (cartId: number): Promise<Cart> => {
     include: [{ model: CartItem, separate: true, include: [Product] }],
   });
 };
-
+//todo: subTotal = 0, deliveryFee=12, isOrdered=false, discount= 0. by default
 export const createNewCart = async ({
   userId,
   subTotal,
@@ -24,14 +24,6 @@ export const createNewCart = async ({
   isOrdered,
   discount,
 }: IAddToCart): Promise<Cart> => {
-  console.log({
-    userId,
-    subTotal,
-    deliveryFee,
-    isOrdered,
-    discount,
-  });
-
   const cart = await Cart.create({
     userId,
     subTotal,

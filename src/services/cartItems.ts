@@ -18,13 +18,15 @@ export const getCardItemById = async (
 };
 
 // get a specific cartItem by cartId and Product
+//todo: they will need to update the cart item (Quantity)
 export const getCardItemByCartId = async (
   cartId: number,
   productId: number
 ): Promise<CartItem> => {
   return await CartItem.findOne({ where: { cartId, productId } });
 };
-
+//todo: this should return cart, include cart items
+//no need to ask for all items, they will ask for the cart including cart items
 // get all cart items
 export const getAllCardItemsByCartId = async (
   cartId: number

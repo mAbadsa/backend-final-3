@@ -16,7 +16,13 @@ export class Address extends Model {
     type: DataType.STRING,
     allowNull: false,
   })
-  full_name!: string;
+  first_name!: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  last_name!: string;
 
   @Column({
     type: DataType.STRING,
@@ -63,7 +69,4 @@ export class Address extends Model {
     defaultValue: false,
   })
   is_default!: boolean;
-
-  @BelongsTo(() => User, 'user_id')
-  user!: User;
 }
