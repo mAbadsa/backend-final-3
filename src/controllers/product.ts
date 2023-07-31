@@ -3,7 +3,11 @@ import { Op } from 'sequelize';
 
 import { Product } from '@models/Product';
 import { Brand } from '@models/Brand';
-import { createProductFilter, getProductsByFilter } from '@services/product';
+import {
+  createProductFilter,
+  getOneProduct,
+  getProductsByFilter,
+} from '@services/product';
 
 export const getLimitedEdition: RequestHandler = async (
   req: Request,
@@ -142,6 +146,22 @@ export const getCategoryProducts: RequestHandler = async (
   try {
     const products: Product[] = await getProductsByFilter(filter);
     return res.status(200).json(products);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
+export const getProductById: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const { id } = req.params;
+
+  try {
+    const _id = parseInt(id);
+
+    const result = await getOneProduct(_id);
+    return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json(error);
   }

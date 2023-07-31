@@ -12,6 +12,14 @@ export async function getProductsByFilter(filter): Promise<Product[]> {
   }
 }
 
+export async function getOneProduct(id: number): Promise<Product> {
+  try {
+    return await Product.findByPk(id, { include: ProductImage });
+  } catch (e) {
+    return e;
+  }
+}
+
 export function createProductFilter(
   query: ParsedQs
 ) /*: [Object, number, number]*/ {
