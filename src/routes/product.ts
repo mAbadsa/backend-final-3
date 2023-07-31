@@ -22,6 +22,6 @@ router.get('/new', getNewArrivals);
 router.get('/search', search);
 router.get('/brands/:id', getBrandProducts);
 router.get('/categories/:id', getCategoryProducts);
-router.get('/:id', getProductById);
+router.get('/:id', getProductById); //todo: need to validate ID
 
 export default router;
