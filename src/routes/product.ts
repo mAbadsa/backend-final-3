@@ -9,6 +9,7 @@ import {
   createProducts,
   getBrandProducts,
   getCategoryProducts,
+  getProductById,
 } from '@controllers/product';
 const router = Router();
 
@@ -21,5 +22,6 @@ router.get('/new', getNewArrivals);
 router.get('/search', search);
 router.get('/brands/:id', getBrandProducts);
 router.get('/categories/:id', getCategoryProducts);
+router.get('/:id', getProductById);
 
 export default router;
