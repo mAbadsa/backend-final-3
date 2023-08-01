@@ -56,6 +56,7 @@ export function createProductFilter(
   const limit: number = pageLimit ? Number(pageLimit) : 9; // default is 9
   const offset: number = pageNumber ? (Number(pageNumber) - 1) * limit : 0; // offset default is 0
   const attributes: string[] = [
+    'id',
     'title',
     'sub_title',
     'rating',
