@@ -3,7 +3,13 @@ import { Op } from 'sequelize';
 
 import { Product } from '@models/Product';
 import { Brand } from '@models/Brand';
-import { createProductFilter, getProductsByFilter } from '@services/product';
+import {
+  createProductFilter,
+  getOneProduct,
+  getProductsByFilter,
+} from '@services/product';
+import { getBrandName } from '@/services/brand';
+import { getCategoryName } from '@/services/category';
 
 export const getLimitedEdition: RequestHandler = async (
   req: Request,
@@ -112,6 +118,50 @@ export const createProducts: RequestHandler = async (
     return res.status(500).json(error);
   }
 };
+export const deleteProducts: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const { id } = req.params;
+    const isDeleted: number = await Product.destroy({
+      where: {
+        id: id,
+      },
+    });
+    let result: String = "Product couldn't be deleted";
+
+    if (isDeleted == 1) {
+      result = 'Product has been successfully deleted';
+    }
+    return res.status(200).json({ result: result });
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+export const updateProducts: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const { id } = req.params;
+
+    const isUpdated = await Product.update(
+      { ...req.body },
+      {
+        where: { id: id },
+      }
+    );
+    let result: String = "Product couldn't be updated";
+
+    if (isUpdated[0] == 1) {
+      result = 'Product has been successfully updated';
+    }
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
 
 export const getBrandProducts: RequestHandler = async (
   req: Request,
@@ -124,7 +174,9 @@ export const getBrandProducts: RequestHandler = async (
 
   try {
     const products: Product[] = await getProductsByFilter(filter);
-    return res.status(200).json(products);
+    const brandName: String = (await getBrandName(id)).dataValues;
+    console.log(brandName);
+    return res.status(200).json({ brandName, products });
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -137,11 +189,30 @@ export const getCategoryProducts: RequestHandler = async (
   const { id } = req.params;
   const myQuery = req.query;
   myQuery.category_id = id;
-  const filter = createProductFilter(myQuery);
 
   try {
+    const filter = createProductFilter(myQuery);
+
+    const categoryName: String = (await getCategoryName(id)).dataValues;
+
     const products: Product[] = await getProductsByFilter(filter);
-    return res.status(200).json(products);
+    return res.status(200).json({ categoryName, products });
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
+export const getProductById: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const { id } = req.params;
+
+  try {
+    const _id = parseInt(id);
+
+    const result = await getOneProduct(_id);
+    return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json(error);
   }
