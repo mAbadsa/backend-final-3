@@ -41,7 +41,7 @@ export const createNewUser = async ({
   return newUser;
 };
 
-export const updateUserById = async (
+export const updateUserCurrentCart = async (
   userId: number,
   cartId: number
 ): Promise<number[]> => {

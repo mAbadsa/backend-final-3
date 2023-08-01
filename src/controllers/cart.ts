@@ -1,24 +1,30 @@
 import { Request, Response, NextFunction } from 'express';
 import { getCardById, createNewCart } from '@services/cart';
+import { updateUserCurrentCart } from '@/services/users';
 
 export const getCart = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  console.log({ body: req.params });
   try {
     const user = req.user;
-    const userCartId = user.currentCartId;
-    //todo:
-    /*
-    if (userCartId ==null){
-      addCart
+    let userCartId = user.currentCartId;
+    console.log(userCartId);
+    if (userCartId == null) {
+      userCartId = (
+        await createNewCart({
+          userId: user.id,
+          discount: 0,
+          subTotal: 0,
+          deliveryFee: 12,
+          isOrdered: false,
+        })
+      ).id;
     }
-    */
-
+    updateUserCurrentCart(user.id, userCartId);
     const cart = await getCardById(userCartId);
-
+    user.currentCartId = userCartId;
     res.status(200).json({ success: true, message: 'OK', cart });
   } catch (error) {
     console.log({ error });
@@ -31,7 +37,6 @@ export const addCart = async (
   next: NextFunction
 ): Promise<void> => {
   const body = req.body;
-  console.log({ body });
   try {
     const cart = await createNewCart({ ...body });
     res
