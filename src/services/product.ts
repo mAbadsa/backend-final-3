@@ -20,7 +20,7 @@ export async function getOneProduct(id: number): Promise<Product> {
     return await Product.findByPk(id, {
       //include: [Brand, ProductImage, Category],
       include: [
-        ProductImage,
+        { model: ProductImage },
         {
           model: Brand,
           attributes: ['name'],
