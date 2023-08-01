@@ -3,6 +3,8 @@ import { ParsedQs } from 'qs';
 import { FindOptions, WhereOptions } from 'sequelize';
 import { Product } from '@models/Product';
 import { ProductImage } from '@/models/ProductsImage';
+import { Brand } from '@/models/Brand';
+import { Category } from '@/models/Category';
 
 export async function getProductsByFilter(filter): Promise<Product[]> {
   try {
@@ -14,7 +16,20 @@ export async function getProductsByFilter(filter): Promise<Product[]> {
 
 export async function getOneProduct(id: number): Promise<Product> {
   try {
-    return await Product.findByPk(id, { include: ProductImage });
+    return await Product.findByPk(id, {
+      //include: [Brand, ProductImage, Category],
+      include: [
+        ProductImage,
+        {
+          model: Brand,
+          attributes: ['name'],
+        },
+        {
+          model: Category,
+          attributes: ['name'],
+        },
+      ],
+    });
   } catch (e) {
     return e;
   }
