@@ -3,7 +3,7 @@ import {
   getUserByEmail,
   getUserById,
   createNewUser,
-  updateUserById,
+  updateUserCurrentCart,
 } from '@services/users';
 import { createNewCart } from '@services/cart';
 import {
@@ -88,7 +88,7 @@ export const signup = async (
 
     cart.save();
 
-    const [affectedCount] = await updateUserById(newUser.id, cart.id);
+    const [affectedCount] = await updateUserCurrentCart(newUser.id, cart.id);
 
     if (affectedCount !== 1) {
       throw new HttpException(
