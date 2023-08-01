@@ -10,3 +10,11 @@ export async function getCategories() {
     return e;
   }
 }
+
+export async function getCategoryName(id: string) {
+  try {
+    return await Category.findByPk(id, { attributes: ['name'] });
+  } catch (e) {
+    return e;
+  }
+}
