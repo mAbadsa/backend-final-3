@@ -9,6 +9,7 @@ import {
   getProductsByFilter,
 } from '@services/product';
 import { getBrandName } from '@/services/brand';
+import { getCategoryName } from '@/services/category';
 
 export const getLimitedEdition: RequestHandler = async (
   req: Request,
@@ -144,11 +145,14 @@ export const getCategoryProducts: RequestHandler = async (
   const { id } = req.params;
   const myQuery = req.query;
   myQuery.category_id = id;
-  const filter = createProductFilter(myQuery);
 
   try {
+    const filter = createProductFilter(myQuery);
+
+    const categoryName: String = (await getCategoryName(id)).dataValues;
+
     const products: Product[] = await getProductsByFilter(filter);
-    return res.status(200).json(products);
+    return res.status(200).json({ categoryName, products });
   } catch (error) {
     return res.status(500).json(error);
   }
