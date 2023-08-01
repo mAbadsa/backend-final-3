@@ -10,11 +10,16 @@ import {
   getBrandProducts,
   getCategoryProducts,
   getProductById,
+  updateProducts,
+  deleteProducts,
 } from '@controllers/product';
 const router = Router();
 
 router.get('/', getProducts);
-router.post('/', createProducts);
+router
+  .post('/', createProducts)
+  .put('/:id', updateProducts)
+  .delete('/:id', deleteProducts);
 router.get('/limited', getLimitedEdition);
 router.get('/handpicked', getHandpicked);
 router.get('/popular', getPopular);

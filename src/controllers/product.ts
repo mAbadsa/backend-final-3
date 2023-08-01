@@ -118,6 +118,50 @@ export const createProducts: RequestHandler = async (
     return res.status(500).json(error);
   }
 };
+export const deleteProducts: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const { id } = req.params;
+    const isDeleted: number = await Product.destroy({
+      where: {
+        id: id,
+      },
+    });
+    let result: String = "Product couldn't be deleted";
+
+    if (isDeleted == 1) {
+      result = 'Product has been successfully deleted';
+    }
+    return res.status(200).json({ result: result });
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+export const updateProducts: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const { id } = req.params;
+
+    const isUpdated = await Product.update(
+      { ...req.body },
+      {
+        where: { id: id },
+      }
+    );
+    let result: String = "Product couldn't be updated";
+
+    if (isUpdated[0] == 1) {
+      result = 'Product has been successfully updated';
+    }
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
 
 export const getBrandProducts: RequestHandler = async (
   req: Request,
