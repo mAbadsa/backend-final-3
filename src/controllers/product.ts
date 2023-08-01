@@ -8,6 +8,7 @@ import {
   getOneProduct,
   getProductsByFilter,
 } from '@services/product';
+import { getBrandName } from '@/services/brand';
 
 export const getLimitedEdition: RequestHandler = async (
   req: Request,
@@ -128,7 +129,9 @@ export const getBrandProducts: RequestHandler = async (
 
   try {
     const products: Product[] = await getProductsByFilter(filter);
-    return res.status(200).json(products);
+    const brandName: String = (await getBrandName(id)).dataValues;
+    console.log(brandName);
+    return res.status(200).json({ brandName, products });
   } catch (error) {
     return res.status(500).json(error);
   }

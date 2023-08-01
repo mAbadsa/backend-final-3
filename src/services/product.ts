@@ -8,6 +8,7 @@ import { Category } from '@/models/Category';
 
 export async function getProductsByFilter(filter): Promise<Product[]> {
   try {
+    //return await Product.findAll(filter);
     return await Product.findAll(filter);
   } catch (e) {
     return e;
@@ -54,7 +55,14 @@ export function createProductFilter(
 
   const limit: number = pageLimit ? Number(pageLimit) : 9; // default is 9
   const offset: number = pageNumber ? (Number(pageNumber) - 1) * limit : 0; // offset default is 0
-
+  const attributes: string[] = [
+    'title',
+    'sub_title',
+    'rating',
+    'rating_count',
+    'price',
+    'discount',
+  ];
   const where = {};
 
   if (quantity) {
@@ -107,7 +115,7 @@ export function createProductFilter(
     };
   }
 
-  return { where, limit, offset, include: ProductImage };
+  return { where, limit, offset, attributes, include: ProductImage };
 }
 
 export function getNewArrivalsEarliestDate(): Date {
