@@ -25,8 +25,8 @@ router.get('/handpicked', getHandpicked);
 router.get('/popular', getPopular);
 router.get('/new', getNewArrivals);
 router.get('/search', search);
-router.get('/brands/:id', getBrandProducts);
-router.get('/categories/:id', getCategoryProducts);
+router.get('/brands/:id', getBrandProducts); //todo: need to validate ID
+router.get('/categories/:id', getCategoryProducts); //todo: need to validate ID
 router.get('/:id', getProductById); //todo: need to validate ID
 
 export default router;
