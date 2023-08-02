@@ -49,8 +49,9 @@ export const getNewArrivals: RequestHandler = async (
 ) => {
   const FilterData = req.query;
   FilterData.isNew = '1';
-  const filter = createProductFilter(FilterData);
 
+  const filter = createProductFilter(FilterData);
+  console.log(filter);
   try {
     const result = await getProductsByFilter(filter);
     return res.status(200).json(result);
