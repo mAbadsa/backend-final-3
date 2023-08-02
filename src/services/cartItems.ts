@@ -2,7 +2,7 @@ import { HttpException, messages } from '@/utils';
 import { httpStatus } from '@/utils/constants';
 import { CartItem } from '@models/CartItem';
 import { Product } from '@models/Product';
-import { getCardById } from '@services/cart';
+import { getCartById } from '@services/cart';
 
 interface IAddToCartItem {
   cartId: number;
@@ -19,7 +19,7 @@ export const getCardItemById = async (
 
 // get a specific cartItem by cartId and Product
 //todo: they will need to update the cart item (Quantity)
-export const getCardItemByCartId = async (
+export const getCartItemByCartId = async (
   cartId: number,
   productId: number
 ): Promise<CartItem> => {
@@ -40,7 +40,7 @@ export const getAllCardItemsByCartId = async (
 // Calculate totla cart price
 export const calculateTotalPrice = async (cartId: number): Promise<number> => {
   const cartItems = await getAllCardItemsByCartId(cartId);
-  const cart = await getCardById(cartId);
+  const cart = await getCartById(cartId);
 
   if (!cart) {
     throw new HttpException(
@@ -95,8 +95,15 @@ export const updateCartItemQuantity = async (
   state: 'increment' | 'decrement'
 ): Promise<number[]> => {
   console.log({ cartItemId, quantity, state });
+
+  if (state === 'increment') {
+    quantity = quantity + 1;
+  } else if (state === 'decrement') {
+    quantity = quantity - 1;
+  }
+
   return await CartItem.update(
-    { quantity: state === 'increment' ? (quantity += 1) : (quantity -= 1) },
+    { quantity: quantity },
     { where: { id: cartItemId } }
   );
 };
@@ -108,8 +115,12 @@ export const createOrUpdateCartItem = async (
   quantity: number,
   state?: 'increment' | 'decrement'
 ): Promise<void> => {
+  console.log({ quantity, productId, cartId });
+  console.log('---------------------------');
+
   // Create or find the cart item
-  const cartItem = await getCardItemByCartId(cartId, productId);
+  const cartItem = await getCartItemByCartId(cartId, productId);
+  console.log(cartItem);
   if (!cartItem) {
     await createCartItem({ cartId, productId, quantity });
   } else {
@@ -119,7 +130,7 @@ export const createOrUpdateCartItem = async (
 
   // Calculate the total price and update the cart
   const totalPrice = await calculateTotalPrice(cartId);
-  const cart = await getCardById(cartId);
+  const cart = await getCartById(cartId);
   if (cart) {
     cart.subTotal = totalPrice;
     await cart.save();

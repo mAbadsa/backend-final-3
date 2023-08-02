@@ -5,9 +5,7 @@ import { CartBodyDto, GetCartQueryDto } from '@dtos/carts.dto';
 
 const router = Router();
 
-router
-  .route('/')
-  .get(checkAuth, getCart)
-  .post(validationMiddleware(CartBodyDto, 'body'), checkAuth, addCart);
+router.route('/').get(checkAuth, getCart);
+//.post(validationMiddleware(CartBodyDto, 'body'), checkAuth, addCart);
 
 export default router;

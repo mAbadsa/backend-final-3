@@ -8,7 +8,7 @@ import {
   calculateTotalPrice,
   createOrUpdateCartItem,
 } from '@services/cartItems';
-import { getCardById } from '@services/cart';
+import { getCartById } from '@services/cart';
 import {
   HttpException,
   constants,
@@ -26,9 +26,11 @@ export const getCartItem = async (
   const { httpStatus } = constants;
 
   try {
-    const cartItemt = await getCardItemById(+cartItemId);
+    const cartItem = await getCardItemById(+cartItemId);
 
-    res.status(httpStatus.OK).json({ success: true, message: 'OK', cartItemt });
+    res
+      .status(httpStatus.OK)
+      .json({ success: true, message: 'OK', cartItem: cartItem });
   } catch (error) {
     next(error);
   }
@@ -75,7 +77,7 @@ export const updateQuantity = async (
 
     await updateCartItemQuantity(+cartItemId, cartItem.quantity, state);
 
-    const cart = await getCardById(userCartId);
+    const cart = await getCartById(userCartId);
 
     if (!cart) {
       throw new HttpException(
@@ -109,8 +111,9 @@ export const createNewCartItem = async (
 
   try {
     const userCartId = req.user.currentCartId;
-    // console.log({ quantity, productId, userCartId });
-    const cart = await getCardById(userCartId);
+    console.log('***********************');
+    console.log({ quantity, productId, userCartId });
+    const cart = await getCartById(userCartId);
     if (!cart) {
       throw new HttpException(
         httpStatus.NOT_FOUND,
@@ -175,7 +178,7 @@ export const deleteCartItem = async (
       );
     }
 
-    const cart = await getCardById(userCartId);
+    const cart = await getCartById(userCartId);
 
     if (!cart) {
       throw new HttpException(
