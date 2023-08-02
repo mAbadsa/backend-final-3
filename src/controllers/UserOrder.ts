@@ -23,6 +23,9 @@ export const createOrder: RequestHandler = async (
     const user = req.user;
 
     const result = await createUserOrder(user);
+    if (!result) {
+      return res.status(400).json({ message: "can't order an empty cart!" });
+    }
     return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json(error);

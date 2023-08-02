@@ -70,7 +70,7 @@ class App {
     this.app.use('/carts', CartRouters);
     this.app.use('/cart-items', CartItemsRouters);
     this.app.use('/users', UserRouters);
-    this.app.use('/order', UserOrderRouters);
+    this.app.use('/orders', UserOrderRouters);
     // Error middleware
     this.app.use([notFound, serverError]);
   }

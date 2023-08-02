@@ -10,7 +10,7 @@ interface IAddToCart {
   isOrdered: boolean;
 }
 
-export const getCardById = async (cartId: number): Promise<Cart> => {
+export const getCartById = async (cartId: number): Promise<Cart> => {
   return await Cart.findByPk(cartId, {
     include: [{ model: CartItem, separate: true, include: [Product] }],
   });

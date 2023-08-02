@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { getCardById, createNewCart } from '@services/cart';
+import { getCartById, createNewCart } from '@services/cart';
 import { updateUserCurrentCart } from '@/services/users';
 
 export const getCart = async (
@@ -23,7 +23,7 @@ export const getCart = async (
       ).id;
     }
     updateUserCurrentCart(user.id, userCartId);
-    const cart = await getCardById(userCartId);
+    const cart = await getCartById(userCartId);
     user.currentCartId = userCartId;
     res.status(200).json({ success: true, message: 'OK', cart });
   } catch (error) {
