@@ -10,8 +10,7 @@ interface IAddToCart {
   isOrdered: boolean;
 }
 
-export const getCardById = async (cartId: number): Promise<Cart> => {
-  console.log({ cartId });
+export const getCartById = async (cartId: number): Promise<Cart> => {
   return await Cart.findByPk(cartId, {
     include: [{ model: CartItem, separate: true, include: [Product] }],
   });
@@ -19,10 +18,10 @@ export const getCardById = async (cartId: number): Promise<Cart> => {
 //todo: subTotal = 0, deliveryFee=12, isOrdered=false, discount= 0. by default
 export const createNewCart = async ({
   userId,
-  subTotal,
-  deliveryFee,
-  isOrdered,
-  discount,
+  subTotal = 0,
+  deliveryFee = 12,
+  isOrdered = false,
+  discount = 0,
 }: IAddToCart): Promise<Cart> => {
   const cart = await Cart.create({
     userId,
