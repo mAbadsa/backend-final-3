@@ -174,7 +174,9 @@ export const getBrandProducts: RequestHandler = async (
   const filter = createProductFilter(myQuery);
 
   try {
-    const products: Product[] = await getProductsByFilter(filter);
+    const products: Product[] = await (
+      await getProductsByFilter(filter)
+    ).products;
     const brandName: String = (await getBrandName(id)).dataValues;
     console.log(brandName);
     return res.status(200).json({ brandName, products });
@@ -196,7 +198,9 @@ export const getCategoryProducts: RequestHandler = async (
 
     const categoryName: String = (await getCategoryName(id)).dataValues;
 
-    const products: Product[] = await getProductsByFilter(filter);
+    const products: Product[] = await (
+      await getProductsByFilter(filter)
+    ).products;
     return res.status(200).json({ categoryName, products });
   } catch (error) {
     return res.status(500).json(error);

@@ -6,10 +6,19 @@ import { ProductImage } from '@/models/ProductsImage';
 import { Brand } from '@/models/Brand';
 import { Category } from '@/models/Category';
 
-export async function getProductsByFilter(filter): Promise<Product[]> {
+export async function getProductsByFilter(
+  filter
+): Promise<{ products: Product[]; pagesNumber: number }> {
   try {
     //return await Product.findAll(filter);
-    return await Product.findAll(filter);
+
+    const data = await Product.findAndCountAll(filter);
+
+    const products: Product[] = data.rows;
+    const count: number = data.count;
+    const limit: number = filter.limit;
+    let pagesNumber: number = Math.ceil(count / limit);
+    return { products, pagesNumber };
   } catch (e) {
     return e;
   }
@@ -55,7 +64,7 @@ export function createProductFilter(
 
   const limit: number = pageLimit ? Number(pageLimit) : 9; // default is 9
   const offset: number = pageNumber ? (Number(pageNumber) - 1) * limit : 0; // offset default is 0
-  const attributes: string[] = [
+  /*const attributes: string[] = [
     'id',
     'title',
     'sub_title',
@@ -63,7 +72,7 @@ export function createProductFilter(
     'rating_count',
     'price',
     'discount',
-  ];
+  ];*/
   const where = {};
 
   if (quantity) {
@@ -116,7 +125,7 @@ export function createProductFilter(
     };
   }
 
-  return { where, limit, offset, attributes, include: ProductImage };
+  return { where, limit, offset, include: ProductImage };
 }
 
 export function getNewArrivalsEarliestDate(): Date {
