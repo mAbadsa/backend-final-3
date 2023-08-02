@@ -2,6 +2,7 @@ import { Cart } from '@/models/Cart';
 import { User } from '@/models/User';
 import { UserOrder } from '@/models/UserOrder';
 import { createNewCart, getCartById } from './cart';
+import { updateUserCurrentCart } from './users';
 
 export const getAllUserOrders = async (
   user_id: number
@@ -25,12 +26,15 @@ export const createUserOrder = async (user: User): Promise<UserOrder> => {
   console.log(user.currentCartId);
   //todo: create new one for the user
   console.log(user.id);
-  await createNewCart({
+  const newCart: Cart = await createNewCart({
     userId: user.id,
     discount: 0,
     subTotal: 0,
     deliveryFee: 12,
     isOrdered: false,
   });
+  console.log(newCart.dataValues.id);
+  await updateUserCurrentCart(userId, newCart.dataValues.id);
+
   return userOrder;
 };
