@@ -23,9 +23,6 @@ export const createUserOrder = async (user: User): Promise<UserOrder> => {
     user_id: userId,
   });
   await Cart.update({ isOrdered: true }, { where: { id: user.currentCartId } });
-  console.log(user.currentCartId);
-  //todo: create new one for the user
-  console.log(user.id);
   const newCart: Cart = await createNewCart({
     userId: user.id,
     discount: 0,
@@ -33,7 +30,6 @@ export const createUserOrder = async (user: User): Promise<UserOrder> => {
     deliveryFee: 12,
     isOrdered: false,
   });
-  console.log(newCart.dataValues.id);
   await updateUserCurrentCart(userId, newCart.dataValues.id);
 
   return userOrder;
