@@ -60,7 +60,11 @@ class App {
   private initializeMiddlewares(): void {
     this.app.use(
       cors({
-        origin: ['http://localhost:3000', 'https://coral-team-3.netlify.app/'],
+        origin: [
+          '*',
+          'http://localhost:3000',
+          'https://coral-team-3.netlify.app/',
+        ],
         credentials: true,
       })
     );
