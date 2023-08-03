@@ -42,6 +42,9 @@ export const messages = {
   cartResponse: {
     CART_NOT_FOUND: 'Cart not found',
   },
+  imageResponse: {
+    uploadSuccess: 'Upload image successfully',
+  },
 };
 
 export const errorResponse = {

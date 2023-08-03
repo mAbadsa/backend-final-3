@@ -130,7 +130,7 @@ export const deleteProducts: RequestHandler = async (
         id: id,
       },
     });
-    let result: String = "Product couldn't be deleted";
+    let result = "Product couldn't be deleted";
 
     if (isDeleted == 1) {
       result = 'Product has been successfully deleted';
@@ -153,7 +153,7 @@ export const updateProducts: RequestHandler = async (
         where: { id: id },
       }
     );
-    let result: String = "Product couldn't be updated";
+    let result = "Product couldn't be updated";
 
     if (isUpdated[0] == 1) {
       result = 'Product has been successfully updated';
@@ -177,7 +177,7 @@ export const getBrandProducts: RequestHandler = async (
     const products: Product[] = await (
       await getProductsByFilter(filter)
     ).products;
-    const brandName: String = (await getBrandName(id)).dataValues;
+    const brandName: string = (await getBrandName(id)).dataValues;
     console.log(brandName);
     return res.status(200).json({ brandName, products });
   } catch (error) {
@@ -196,7 +196,7 @@ export const getCategoryProducts: RequestHandler = async (
   try {
     const filter = createProductFilter(myQuery);
 
-    const categoryName: String = (await getCategoryName(id)).dataValues;
+    const categoryName: string = (await getCategoryName(id)).dataValues;
 
     const products: Product[] = await (
       await getProductsByFilter(filter)

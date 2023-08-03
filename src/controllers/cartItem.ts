@@ -15,7 +15,6 @@ import {
   messages,
   errorResponse,
 } from '@utils/index';
-import { Product } from '@/models/Product';
 
 export const getCartItem = async (
   req: Request,
@@ -124,7 +123,6 @@ export const createNewCartItem = async (
     const existingCartItem = cart.items.find(
       (item) => item.productId === productId
     );
-    // console.log({ existingCartItem });
 
     if (existingCartItem) {
       // Product already exists in cart, increment the quantity by 1
@@ -153,7 +151,6 @@ export const createNewCartItem = async (
       });
     }
   } catch (error) {
-    console.log({ error });
     next(error);
   }
 };
@@ -195,7 +192,6 @@ export const deleteCartItem = async (
       .status(httpStatus.CREATED)
       .json({ message: generalResponse.DELETE_CART_ITEM_SUCCESS });
   } catch (error) {
-    console.log({ error });
     next(error);
   }
 };
