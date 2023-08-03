@@ -16,10 +16,11 @@ import {
 const router = Router();
 
 router.get('/', getProducts);
-router
-  .post('/', createProducts)
-  .put('/:id', updateProducts)
-  .delete('/:id', deleteProducts);
+router.post('/', createProducts);
+
+router.put('/:id', updateProducts);
+router.delete('/:id', deleteProducts);
+
 router.get('/limited', getLimitedEdition);
 router.get('/handpicked', getHandpicked);
 router.get('/popular', getPopular);

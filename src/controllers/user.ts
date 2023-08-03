@@ -3,7 +3,7 @@ import {
   getUserByEmail,
   getUserById,
   createNewUser,
-  updateUserById,
+  updateUserCurrentCart,
 } from '@services/users';
 import { createNewCart } from '@services/cart';
 import {
@@ -60,9 +60,12 @@ export const signup = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
+  console.log('hi');
+
   const { email, firstName, lastName, password } = req.body;
   const { httpStatus } = constants;
   const { authResponse } = messages;
+  console.log('hi');
   try {
     const existedUser = await getUserByEmail(email);
     if (existedUser) {
@@ -87,7 +90,7 @@ export const signup = async (
 
     cart.save();
 
-    const [affectedCount] = await updateUserById(newUser.id, cart.id);
+    const [affectedCount] = await updateUserCurrentCart(newUser.id, cart.id);
 
     if (affectedCount !== 1) {
       throw new HttpException(

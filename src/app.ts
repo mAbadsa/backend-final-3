@@ -15,8 +15,10 @@ import {
   ProductRouters,
   UserRouters,
   UploadImageRouters,
+  UserOrderRouters,
 } from '@routes/index';
 import { notFound, serverError } from '@middlewares/index';
+import { UserOrder } from './models/UserOrder';
 
 const { port, nodeEnv } = config.server;
 
@@ -70,11 +72,13 @@ class App {
     // app routers middleware
     this.app.use('/categories', CategoryRouters);
     this.app.use('/products', ProductRouters);
+    this.app.use('/product', ProductRouters);
     this.app.use('/brands', BrandRouters);
     this.app.use('/carts', CartRouters);
     this.app.use('/cart-items', CartItemsRouters);
     this.app.use('/users', UserRouters);
     this.app.use('/upload-image', UploadImageRouters);
+    this.app.use('/orders', UserOrderRouters);
     // Error middleware
     this.app.use([notFound, serverError]);
   }
