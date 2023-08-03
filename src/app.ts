@@ -65,7 +65,6 @@ class App {
           'http://localhost:3000',
           'https://coral-team-3.netlify.app/',
         ],
-        credentials: true,
       })
     );
     this.app.use(cookieParser());
