@@ -14,6 +14,7 @@ import {
   CategoryRouters,
   ProductRouters,
   UserRouters,
+  UploadImageRouters,
   UserOrderRouters,
 } from '@routes/index';
 import { notFound, serverError } from '@middlewares/index';
@@ -57,11 +58,16 @@ class App {
   }
 
   private initializeMiddlewares(): void {
-    this.app.use(cors({ origin: '*' }));
-    this.app.use(compression());
-    this.app.use(express.json());
-    this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(
+      cors({
+        origin: ['http://localhost:3000'],
+        credentials: true,
+      })
+    );
     this.app.use(cookieParser());
+    this.app.use(compression());
+    this.app.use(express.json({ limit: '50mb' }));
+    this.app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
     // app routers middleware
     this.app.use('/categories', CategoryRouters);
@@ -71,6 +77,7 @@ class App {
     this.app.use('/carts', CartRouters);
     this.app.use('/cart-items', CartItemsRouters);
     this.app.use('/users', UserRouters);
+    this.app.use('/upload-image', UploadImageRouters);
     this.app.use('/orders', UserOrderRouters);
     // Error middleware
     this.app.use([notFound, serverError]);
