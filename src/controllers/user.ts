@@ -48,24 +48,14 @@ export const getUser = async (
     next(error);
   }
 };
-
-/*
- * create a new user
- * request { body: { email, password, firstName, lastName }}
- * response { statusCode: 201, user: email, firstName, lastName }
- * validation {email, password, firstName, lastName}
- * */
 export const signup = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  console.log('hi');
-
   const { email, firstName, lastName, password } = req.body;
   const { httpStatus } = constants;
   const { authResponse } = messages;
-  console.log('hi');
   try {
     const existedUser = await getUserByEmail(email);
     if (existedUser) {
@@ -98,9 +88,6 @@ export const signup = async (
         errorResponse.SERVER
       );
     }
-
-    console.log({ newUser, affectedCount });
-
     res.status(httpStatus.CREATED).json({
       success: true,
       message: authResponse.SUCCESS_SIGNUP,
@@ -157,7 +144,6 @@ export const login = async (
       .json({
         success: true,
         message: authResponse.SUCCESS_LOGIN,
-        accessToken: genToken,
         user: {
           firstName,
           lastName,

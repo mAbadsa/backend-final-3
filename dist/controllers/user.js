@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.login = exports.signup = exports.getUser = void 0;
-const users_1 = require("../services/users");
-const cart_1 = require("../services/cart");
-const index_1 = require("../utils/index");
+const users_1 = require("@services/users");
+const cart_1 = require("@services/cart");
+const index_1 = require("@utils/index");
 const getUser = async (req, res, next) => {
     const { userId } = req.params;
     const { httpStatus } = index_1.constants;
@@ -41,7 +41,6 @@ const signup = async (req, res, next) => {
     const { authResponse } = index_1.messages;
     try {
         const existedUser = await (0, users_1.getUserByEmail)(email);
-        console.log({ existedUser });
         if (existedUser) {
             throw new index_1.HttpException(httpStatus.CONFLICT, authResponse.ALREADY_EXIST);
         }
@@ -60,11 +59,10 @@ const signup = async (req, res, next) => {
             isOrdered: false,
         });
         cart.save();
-        const [affectedCount] = await (0, users_1.updateUserById)(newUser.id, cart.id);
+        const [affectedCount] = await (0, users_1.updateUserCurrentCart)(newUser.id, cart.id);
         if (affectedCount !== 1) {
             throw new index_1.HttpException(httpStatus.INTERNAL_SERVER_ERROR, index_1.errorResponse.SERVER);
         }
-        console.log({ newUser, affectedCount });
         res.status(httpStatus.CREATED).json({
             success: true,
             message: authResponse.SUCCESS_SIGNUP,
@@ -97,14 +95,13 @@ const login = async (req, res, next) => {
         }, { expiresIn: expire.EXP_5d });
         res
             .status(httpStatus.OK)
-            .cookie(token.ACCESS_TOKEN, genToken, {
+            .cookie(token.ACCESS_TOKEN || 'accessToken', genToken, {
             httpOnly: true,
-            sameSite: 'none',
-            secure: true,
         })
             .json({
             success: true,
             message: authResponse.SUCCESS_LOGIN,
+            accessToken: genToken,
             user: {
                 firstName,
                 lastName,

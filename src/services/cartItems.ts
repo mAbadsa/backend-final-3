@@ -73,9 +73,6 @@ export const createCartItem = async ({
     productId,
     quantity,
   });
-
-  console.log({ cartItem });
-
   const newCartItem = await cartItem.save();
 
   return newCartItem;
@@ -94,8 +91,6 @@ export const updateCartItemQuantity = async (
   quantity: number,
   state: 'increment' | 'decrement'
 ): Promise<number[]> => {
-  console.log({ cartItemId, quantity, state });
-
   if (state === 'increment') {
     quantity = quantity + 1;
   } else if (state === 'decrement') {
@@ -115,12 +110,8 @@ export const createOrUpdateCartItem = async (
   quantity: number,
   state?: 'increment' | 'decrement'
 ): Promise<void> => {
-  console.log({ quantity, productId, cartId });
-  console.log('---------------------------');
-
   // Create or find the cart item
   const cartItem = await getCartItemByCartId(cartId, productId);
-  console.log(cartItem);
   if (!cartItem) {
     await createCartItem({ cartId, productId, quantity });
   } else {

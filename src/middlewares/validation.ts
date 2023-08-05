@@ -2,6 +2,7 @@ import { ClassConstructor, plainToInstance } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
 import { RequestHandler } from 'express';
 import { HttpException } from '@utils/HttpExceptions';
+import { httpStatus } from '@/utils/constants';
 
 export const validationMiddleware =
   (
@@ -21,7 +22,7 @@ export const validationMiddleware =
         const message = errors
           .map((error: ValidationError) => Object.values(error.constraints))
           .join(', ');
-        next(new HttpException(400, message));
+        next(new HttpException(httpStatus.BAD_REQUEST, message));
       } else {
         next();
       }

@@ -5,10 +5,10 @@ const express_1 = tslib_1.__importDefault(require("express"));
 const compression_1 = tslib_1.__importDefault(require("compression"));
 const cookie_parser_1 = tslib_1.__importDefault(require("cookie-parser"));
 const cors_1 = tslib_1.__importDefault(require("cors"));
-const _config_1 = tslib_1.__importDefault(require("./config"));
-const envVar_1 = tslib_1.__importDefault(require("./validations/envVar"));
-const index_1 = require("./routes/index");
-const index_2 = require("./middlewares/index");
+const _config_1 = tslib_1.__importDefault(require("@config"));
+const envVar_1 = tslib_1.__importDefault(require("@validations/envVar"));
+const index_1 = require("@routes/index");
+const index_2 = require("@middlewares/index");
 const { port, nodeEnv } = _config_1.default.server;
 class App {
     constructor(dbConnection) {
@@ -33,18 +33,21 @@ class App {
         });
     }
     initializeMiddlewares() {
-        this.app.use((0, cors_1.default)({ origin: '*' }));
-        this.app.use((0, compression_1.default)());
-        this.app.use(express_1.default.json());
-        this.app.use(express_1.default.urlencoded({ extended: true }));
+        this.app.use((0, cors_1.default)());
         this.app.use((0, cookie_parser_1.default)());
+        this.app.use((0, compression_1.default)());
+        this.app.use(express_1.default.json({ limit: '50mb' }));
+        this.app.use(express_1.default.urlencoded({ extended: true, limit: '50mb' }));
         // app routers middleware
         this.app.use('/categories', index_1.CategoryRouters);
         this.app.use('/products', index_1.ProductRouters);
+        this.app.use('/product', index_1.ProductRouters);
         this.app.use('/brands', index_1.BrandRouters);
         this.app.use('/carts', index_1.CartRouters);
         this.app.use('/cart-items', index_1.CartItemsRouters);
         this.app.use('/users', index_1.UserRouters);
+        this.app.use('/upload-image', index_1.UploadImageRouters);
+        this.app.use('/orders', index_1.UserOrderRouters);
         // Error middleware
         this.app.use([index_2.notFound, index_2.serverError]);
     }

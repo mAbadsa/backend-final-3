@@ -1,1 +1,1 @@
-{"version":3,"file":"brand.js","sourceRoot":"","sources":["../../src/routes/brand.ts"],"names":[],"mappings":";;AAAA,qCAAiC;AACjC,8CAAiE;AACjE,MAAM,MAAM,GAAG,IAAA,gBAAM,GAAE,CAAC;AAExB,MAAM,CAAC,GAAG,CAAC,GAAG,EAAE,iBAAS,CAAC,CAAC;AAC3B,MAAM,CAAC,GAAG,CAAC,eAAe,EAAE,wBAAgB,CAAC,CAAC;AAE9C,kBAAe,MAAM,CAAC"}
+{"version":3,"file":"brand.js","sourceRoot":"","sources":["../../src/routes/brand.ts"],"names":[],"mappings":";;AAAA,qCAAiC;AACjC,8CAA+C;AAC/C,MAAM,MAAM,GAAG,IAAA,gBAAM,GAAE,CAAC;AAExB,MAAM,CAAC,GAAG,CAAC,GAAG,EAAE,iBAAS,CAAC,CAAC;AAE3B,kBAAe,MAAM,CAAC"}

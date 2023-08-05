@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const tslib_1 = require("tslib");
 const sequelize_typescript_1 = require("sequelize-typescript");
-const hashPassword_1 = require("../utils/hashPassword");
+const hashPassword_1 = require("@utils/hashPassword");
 const Address_1 = require("./Address");
 const Cart_1 = require("./Cart");
 const UserOrder_1 = require("./UserOrder");

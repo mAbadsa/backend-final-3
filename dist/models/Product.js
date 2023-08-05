@@ -73,6 +73,17 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", Number)
 ], Product.prototype, "rating", void 0);
 tslib_1.__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+        validate: {
+            min: 0,
+        },
+    }),
+    tslib_1.__metadata("design:type", Number)
+], Product.prototype, "rating_count", void 0);
+tslib_1.__decorate([
     sequelize_typescript_1.CreatedAt,
     (0, sequelize_typescript_1.Column)({
         defaultValue: sequelize_typescript_1.Sequelize.literal('CURRENT_TIMESTAMP'),
