@@ -14,8 +14,7 @@ interface IError extends Error {
 const serverError = (
   error: IError,
   _request: Request,
-  response: Response,
-  _next: NextFunction
+  response: Response
 ): void => {
   response
     .status(error.status || constants.httpStatus.INTERNAL_SERVER_ERROR)
