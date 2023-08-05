@@ -17,10 +17,10 @@ export interface IDatabaseEnvVar {
 
 const development: IDatabaseEnvVar = {
   dialect: (DB_DAILECT as Partial<Dialect>) || 'mysql',
-  host: DB_HOST || '',
-  username: DB_USERNAME || '',
-  password: DB_PASS || '',
-  database: DB_NAME || '',
+  host: DB_HOST,
+  username: DB_USERNAME,
+  password: DB_PASS,
+  database: DB_NAME,
   logging: DB_LOGGING === 'true',
 };
 
