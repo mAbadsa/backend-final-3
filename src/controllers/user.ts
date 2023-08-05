@@ -60,12 +60,9 @@ export const signup = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  console.log('hi');
-
   const { email, firstName, lastName, password } = req.body;
   const { httpStatus } = constants;
   const { authResponse } = messages;
-  console.log('hi');
   try {
     const existedUser = await getUserByEmail(email);
     if (existedUser) {
@@ -98,9 +95,6 @@ export const signup = async (
         errorResponse.SERVER
       );
     }
-
-    console.log({ newUser, affectedCount });
-
     res.status(httpStatus.CREATED).json({
       success: true,
       message: authResponse.SUCCESS_SIGNUP,

@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkAuth = void 0;
-const index_1 = require("../utils/index");
-const users_1 = require("../services/users");
+const index_1 = require("@utils/index");
+const users_1 = require("@services/users");
 const checkAuth = async (request, _res, next) => {
     const { authResponse } = index_1.messages;
     const { httpStatus } = index_1.constants;

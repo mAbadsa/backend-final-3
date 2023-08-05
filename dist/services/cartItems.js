@@ -1,21 +1,24 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createOrUpdateCartItem = exports.updateCartItemQuantity = exports.removeItemFromCartItem = exports.createCartItem = exports.calculateTotalPrice = exports.getAllCardItemsByCartId = exports.getCardItemByCartId = exports.getCardItemById = void 0;
-const utils_1 = require("../utils");
-const constants_1 = require("../utils/constants");
-const CartItem_1 = require("../models/CartItem");
-const Product_1 = require("../models/Product");
-const cart_1 = require("./cart");
+exports.createOrUpdateCartItem = exports.updateCartItemQuantity = exports.removeItemFromCartItem = exports.createCartItem = exports.calculateTotalPrice = exports.getAllCardItemsByCartId = exports.getCartItemByCartId = exports.getCardItemById = void 0;
+const utils_1 = require("@/utils");
+const constants_1 = require("@/utils/constants");
+const CartItem_1 = require("@models/CartItem");
+const Product_1 = require("@models/Product");
+const cart_1 = require("@services/cart");
 // get a specific cartItem by Id
 const getCardItemById = async (cartItemId) => {
     return await CartItem_1.CartItem.findByPk(cartItemId, { include: { model: Product_1.Product } });
 };
 exports.getCardItemById = getCardItemById;
 // get a specific cartItem by cartId and Product
-const getCardItemByCartId = async (cartId, productId) => {
+//todo: they will need to update the cart item (Quantity)
+const getCartItemByCartId = async (cartId, productId) => {
     return await CartItem_1.CartItem.findOne({ where: { cartId, productId } });
 };
-exports.getCardItemByCartId = getCardItemByCartId;
+exports.getCartItemByCartId = getCartItemByCartId;
+//todo: this should return cart, include cart items
+//no need to ask for all items, they will ask for the cart including cart items
 // get all cart items
 const getAllCardItemsByCartId = async (cartId) => {
     return await CartItem_1.CartItem.findAll({
@@ -27,7 +30,7 @@ exports.getAllCardItemsByCartId = getAllCardItemsByCartId;
 // Calculate totla cart price
 const calculateTotalPrice = async (cartId) => {
     const cartItems = await (0, exports.getAllCardItemsByCartId)(cartId);
-    const cart = await (0, cart_1.getCardById)(cartId);
+    const cart = await (0, cart_1.getCartById)(cartId);
     if (!cart) {
         throw new utils_1.HttpException(constants_1.httpStatus.NOT_FOUND, utils_1.messages.cartResponse.CART_NOT_FOUND);
     }
@@ -50,7 +53,6 @@ const createCartItem = async ({ cartId, productId, quantity, }) => {
         productId,
         quantity,
     });
-    console.log({ cartItem });
     const newCartItem = await cartItem.save();
     return newCartItem;
 };
@@ -62,14 +64,19 @@ const removeItemFromCartItem = async (cartItemId) => {
 exports.removeItemFromCartItem = removeItemFromCartItem;
 // Update the cartItem qunatity
 const updateCartItemQuantity = async (cartItemId, quantity, state) => {
-    console.log({ cartItemId, quantity, state });
-    return await CartItem_1.CartItem.update({ quantity: state === 'increment' ? (quantity += 1) : (quantity -= 1) }, { where: { id: cartItemId } });
+    if (state === 'increment') {
+        quantity = quantity + 1;
+    }
+    else if (state === 'decrement') {
+        quantity = quantity - 1;
+    }
+    return await CartItem_1.CartItem.update({ quantity: quantity }, { where: { id: cartItemId } });
 };
 exports.updateCartItemQuantity = updateCartItemQuantity;
 // Function to create or update a cart item and update the total price
 const createOrUpdateCartItem = async (cartId, productId, quantity, state) => {
     // Create or find the cart item
-    const cartItem = await (0, exports.getCardItemByCartId)(cartId, productId);
+    const cartItem = await (0, exports.getCartItemByCartId)(cartId, productId);
     if (!cartItem) {
         await (0, exports.createCartItem)({ cartId, productId, quantity });
     }
@@ -79,7 +86,7 @@ const createOrUpdateCartItem = async (cartId, productId, quantity, state) => {
     }
     // Calculate the total price and update the cart
     const totalPrice = await (0, exports.calculateTotalPrice)(cartId);
-    const cart = await (0, cart_1.getCardById)(cartId);
+    const cart = await (0, cart_1.getCartById)(cartId);
     if (cart) {
         cart.subTotal = totalPrice;
         await cart.save();

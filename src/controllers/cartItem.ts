@@ -110,8 +110,7 @@ export const createNewCartItem = async (
 
   try {
     const userCartId = req.user.currentCartId;
-    console.log('***********************');
-    console.log({ quantity, productId, userCartId });
+
     const cart = await getCartById(userCartId);
     if (!cart) {
       throw new HttpException(

@@ -1,13 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const product_1 = require("../controllers/product");
+const product_1 = require("@controllers/product");
+const products_dto_1 = require("@/dtos/products.dto");
+const middlewares_1 = require("@/middlewares");
 const router = (0, express_1.Router)();
 router.get('/', product_1.getProducts);
+router.post('/', product_1.createProducts);
+router.put('/:id', (0, middlewares_1.validationMiddleware)(products_dto_1.ProductsByIdQueryDto, 'params'), product_1.updateProducts);
+router.delete('/:id', (0, middlewares_1.validationMiddleware)(products_dto_1.ProductsByIdQueryDto, 'params'), product_1.deleteProducts);
 router.get('/limited', product_1.getLimitedEdition);
 router.get('/handpicked', product_1.getHandpicked);
 router.get('/popular', product_1.getPopular);
 router.get('/new', product_1.getNewArrivals);
 router.get('/search', product_1.search);
+router.get('/brands/:id', (0, middlewares_1.validationMiddleware)(products_dto_1.ProductsByIdQueryDto, 'params'), product_1.getBrandProducts);
+router.get('/categories/:id', (0, middlewares_1.validationMiddleware)(products_dto_1.ProductsByIdQueryDto, 'params'), product_1.getCategoryProducts);
+router.get('/:id', (0, middlewares_1.validationMiddleware)(products_dto_1.ProductsByIdQueryDto, 'params'), product_1.getProductById);
 exports.default = router;
 //# sourceMappingURL=product.js.map

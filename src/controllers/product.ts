@@ -51,7 +51,6 @@ export const getNewArrivals: RequestHandler = async (
   FilterData.isNew = '1';
 
   const filter = createProductFilter(FilterData);
-  console.log(filter);
   try {
     const result = await getProductsByFilter(filter);
     return res.status(200).json(result);
@@ -178,7 +177,6 @@ export const getBrandProducts: RequestHandler = async (
       await getProductsByFilter(filter)
     ).products;
     const brandName: string = (await getBrandName(id)).dataValues;
-    console.log(brandName);
     return res.status(200).json({ brandName, products });
   } catch (error) {
     return res.status(500).json(error);

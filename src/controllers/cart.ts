@@ -10,7 +10,6 @@ export const getCart = async (
   try {
     const user = req.user;
     let userCartId = user.currentCartId;
-    console.log(userCartId);
     if (userCartId == null) {
       userCartId = (
         await createNewCart({
@@ -27,7 +26,6 @@ export const getCart = async (
     user.currentCartId = userCartId;
     res.status(200).json({ success: true, message: 'OK', cart });
   } catch (error) {
-    console.log({ error });
     next(error);
   }
 };
