@@ -1,8 +1,9 @@
 import { createProductFilter, getProductsByFilter } from '@/services/product';
 import { getAllBrands } from '@/services/brand';
-import { RequestHandler, Request, Response } from 'express';
+import { RequestHandler, Request, Response, NextFunction } from 'express';
 import { createUserOrder, getAllUserOrders } from '@/services/UserOrder';
-
+import { constants } from '@/utils';
+const { httpStatus } = constants;
 export const getUserOrders: RequestHandler = async (
   req: Request,
   res: Response
@@ -17,17 +18,20 @@ export const getUserOrders: RequestHandler = async (
 };
 export const createOrder: RequestHandler = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     const user = req.user;
 
     const result = await createUserOrder(user);
     if (!result) {
-      return res.status(400).json({ message: "can't order an empty cart!" });
+      return res
+        .status(httpStatus.BAD_REQUEST)
+        .json({ message: "can't order an empty cart!" });
     }
-    return res.status(200).json(result);
+    return res.status(httpStatus.OK).json(result);
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };

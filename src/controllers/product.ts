@@ -1,4 +1,4 @@
-import { RequestHandler, Request, Response } from 'express';
+import { RequestHandler, Request, Response, NextFunction } from 'express';
 import { Op } from 'sequelize';
 
 import { Product } from '@models/Product';
@@ -45,35 +45,37 @@ export const getPopular: RequestHandler = async (
 
 export const getNewArrivals: RequestHandler = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   const FilterData = req.query;
   FilterData.isNew = '1';
-
   const filter = createProductFilter(FilterData);
   try {
     const result = await getProductsByFilter(filter);
     return res.status(200).json(result);
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
 export const getHandpicked: RequestHandler = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   const filter = createProductFilter({ handpicked: '1' });
   try {
     const result = await getProductsByFilter(filter);
     return res.status(200).json(result);
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 export const getProducts: RequestHandler = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   const filter = createProductFilter(req.query);
 
@@ -81,7 +83,7 @@ export const getProducts: RequestHandler = async (
     const result = await getProductsByFilter(filter);
     return res.status(200).json(result);
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
@@ -120,7 +122,8 @@ export const createProducts: RequestHandler = async (
 };
 export const deleteProducts: RequestHandler = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     const { id } = req.params;
@@ -136,16 +139,16 @@ export const deleteProducts: RequestHandler = async (
     }
     return res.status(200).json({ result: result });
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 export const updateProducts: RequestHandler = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     const { id } = req.params;
-
     const isUpdated = await Product.update(
       { ...req.body },
       {
@@ -153,19 +156,19 @@ export const updateProducts: RequestHandler = async (
       }
     );
     let result = "Product couldn't be updated";
-
     if (isUpdated[0] == 1) {
       result = 'Product has been successfully updated';
     }
     return res.status(200).json(result);
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
 export const getBrandProducts: RequestHandler = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   const { id } = req.params;
   const myQuery = req.query;
@@ -179,13 +182,14 @@ export const getBrandProducts: RequestHandler = async (
     const brandName: string = (await getBrandName(id)).dataValues;
     return res.status(200).json({ brandName, products });
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
 export const getCategoryProducts: RequestHandler = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   const { id } = req.params;
   const myQuery = req.query;
@@ -201,13 +205,14 @@ export const getCategoryProducts: RequestHandler = async (
     ).products;
     return res.status(200).json({ categoryName, products });
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
 export const getProductById: RequestHandler = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   const { id } = req.params;
 
@@ -217,6 +222,6 @@ export const getProductById: RequestHandler = async (
     const result = await getOneProduct(_id);
     return res.status(200).json(result);
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };

@@ -5,15 +5,13 @@ import { Product } from '@models/Product';
 import { ProductImage } from '@/models/ProductsImage';
 import { Brand } from '@/models/Brand';
 import { Category } from '@/models/Category';
+import { filter } from 'compression';
 
 export async function getProductsByFilter(
   filter
 ): Promise<{ products: Product[]; pagesNumber: number }> {
   try {
-    //return await Product.findAll(filter);
-
     const data = await Product.findAndCountAll(filter);
-
     const products: Product[] = data.rows;
     const count: number = data.count;
     const limit: number = filter.limit;
@@ -27,7 +25,6 @@ export async function getProductsByFilter(
 export async function getOneProduct(id: number): Promise<Product> {
   try {
     return await Product.findByPk(id, {
-      //include: [Brand, ProductImage, Category],
       include: [
         { model: ProductImage },
         {
@@ -45,9 +42,7 @@ export async function getOneProduct(id: number): Promise<Product> {
   }
 }
 
-export function createProductFilter(
-  query: ParsedQs
-) /*: [Object, number, number]*/ {
+export function createProductFilter(query: ParsedQs) {
   const {
     quantity,
     discount,
@@ -64,17 +59,7 @@ export function createProductFilter(
 
   const limit: number = pageLimit ? Number(pageLimit) : 9; // default is 9
   const offset: number = pageNumber ? (Number(pageNumber) - 1) * limit : 0; // offset default is 0
-  /*const attributes: string[] = [
-    'id',
-    'title',
-    'sub_title',
-    'rating',
-    'rating_count',
-    'price',
-    'discount',
-  ];*/
   const where = {};
-
   if (quantity) {
     where['quantity'] = {
       [Op.lte]: quantity,
@@ -129,7 +114,7 @@ export function createProductFilter(
 }
 
 export function getNewArrivalsEarliestDate(): Date {
-  const date = new Date();
-  date.setMonth(date.getMonth() - 3);
+  const date = new Date(); //now
+  console.log(date);
   return date;
 }

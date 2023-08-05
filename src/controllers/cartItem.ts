@@ -43,11 +43,9 @@ export const getAllCartItem = async (
   const { httpStatus } = constants;
 
   try {
-    const cartItemts = await getAllCardItemsByCartId(req.user.currentCartId);
+    const cartItems = await getAllCardItemsByCartId(req.user.currentCartId);
 
-    res
-      .status(httpStatus.OK)
-      .json({ success: true, message: 'OK', cartItemts });
+    res.status(httpStatus.OK).json({ success: true, message: 'OK', cartItems });
   } catch (error) {
     next(error);
   }

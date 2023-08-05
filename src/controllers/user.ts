@@ -48,13 +48,6 @@ export const getUser = async (
     next(error);
   }
 };
-
-/*
- * create a new user
- * request { body: { email, password, firstName, lastName }}
- * response { statusCode: 201, user: email, firstName, lastName }
- * validation {email, password, firstName, lastName}
- * */
 export const signup = async (
   req: Request,
   res: Response,
@@ -151,7 +144,6 @@ export const login = async (
       .json({
         success: true,
         message: authResponse.SUCCESS_LOGIN,
-        accessToken: genToken,
         user: {
           firstName,
           lastName,
