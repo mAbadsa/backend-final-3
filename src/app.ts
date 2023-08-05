@@ -67,7 +67,6 @@ class App {
     // app routers middleware
     this.app.use('/categories', CategoryRouters);
     this.app.use('/products', ProductRouters);
-    this.app.use('/product', ProductRouters);
     this.app.use('/brands', BrandRouters);
     this.app.use('/carts', CartRouters);
     this.app.use('/cart-items', CartItemsRouters);

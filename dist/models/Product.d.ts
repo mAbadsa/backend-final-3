@@ -12,6 +12,7 @@ export declare class Product extends Model {
     price: number;
     quantity: number;
     rating: number;
+    rating_count: number;
     createdAt: Date;
     updatedAt?: Date;
     discount: number;

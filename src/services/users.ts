@@ -9,12 +9,10 @@ interface IUser {
 }
 
 export const getUserById = async (userId: number): Promise<User> => {
-  console.log({ userId });
   return await User.findByPk(userId);
 };
 
 export const getUserByEmail = async (email: string): Promise<User> => {
-  console.log({ email });
   return await User.findOne({ where: { email } });
 };
 
@@ -24,13 +22,6 @@ export const createNewUser = async ({
   email,
   password,
 }: IUser): Promise<User> => {
-  console.log({
-    firstName,
-    lastName,
-    email,
-    password,
-  });
-
   const user = await User.create({
     firstName,
     lastName,

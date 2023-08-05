@@ -41,6 +41,9 @@ export declare const messages: {
     cartResponse: {
         CART_NOT_FOUND: string;
     };
+    imageResponse: {
+        uploadSuccess: string;
+    };
 };
 export declare const errorResponse: {
     CLIENT: string;

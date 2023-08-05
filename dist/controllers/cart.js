@@ -1,24 +1,33 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addCart = exports.getCart = void 0;
-const cart_1 = require("../services/cart");
+const cart_1 = require("@services/cart");
+const users_1 = require("@/services/users");
 const getCart = async (req, res, next) => {
-    console.log({ body: req.params });
     try {
         const user = req.user;
-        const userCartId = user.currentCartId;
-        const cart = await (0, cart_1.getCardById)(userCartId);
+        let userCartId = user.currentCartId;
+        if (userCartId == null) {
+            userCartId = (await (0, cart_1.createNewCart)({
+                userId: user.id,
+                discount: 0,
+                subTotal: 0,
+                deliveryFee: 12,
+                isOrdered: false,
+            })).id;
+        }
+        (0, users_1.updateUserCurrentCart)(user.id, userCartId);
+        const cart = await (0, cart_1.getCartById)(userCartId);
+        user.currentCartId = userCartId;
         res.status(200).json({ success: true, message: 'OK', cart });
     }
     catch (error) {
-        console.log({ error });
         next(error);
     }
 };
 exports.getCart = getCart;
 const addCart = async (req, res, next) => {
     const body = req.body;
-    console.log({ body });
     try {
         const cart = await (0, cart_1.createNewCart)(Object.assign({}, body));
         res

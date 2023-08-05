@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const index_1 = require("../middlewares/index");
-const cartItem_1 = require("../controllers/cartItem");
-const cartItems_dto_1 = require("../dtos/cartItems.dto");
+const index_1 = require("@middlewares/index");
+const cartItem_1 = require("@controllers/cartItem");
+const cartItems_dto_1 = require("@dtos/cartItems.dto");
 const router = (0, express_1.Router)();
 router
     .route('/:cartItemId')
